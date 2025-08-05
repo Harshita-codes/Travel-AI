@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 // Remove react-google-places-autocomplete import
 import { Button } from '../components/ui/button'
+import PlaceAutocomplete from '../components/PlaceAutocomplete'
 
 
 const SelectBudgetOptions=[
@@ -103,10 +104,10 @@ function CreateTrip() {
         <h2 className='text-xl my-3 font-medium'>
           What is your destination?
         </h2>
-        {/* <PlaceAutocomplete onSelect={(place) => {
+        {/* {<PlaceAutocomplete onSelect={(place) => {
           setPlace(place);
           handleInputChange('location', place.displayName || place.formattedAddress);
-        }} /> */}
+        }} />} */}
       </div>
 
 
