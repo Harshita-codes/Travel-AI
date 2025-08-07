@@ -1,6 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 
 function PlaceAutocomplete({ onSelect }) {
+  const script = document.createElement("script");
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_PLACE_API_KEY}&libraries=places&callback=initMap`;
+  script.async = true;
+  script.defer = true;
+  document.body.appendChild(script);
   const autocompleteRef = useRef(null);
 
   useEffect(() => {
@@ -24,7 +29,7 @@ function PlaceAutocomplete({ onSelect }) {
 
   return (
     <div ref={autocompleteRef} className="gmp-autocomplete"></div>
-  );
+  );
 }
 
 export default PlaceAutocomplete;
