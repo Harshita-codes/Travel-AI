@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 // Remove react-google-places-autocomplete import
 import { Button } from '../components/ui/button'
 import PlaceAutocomplete from '../components/PlaceAutocomplete'
-
+import { AI_PROMPT } from '@/constants/options'
 
 const SelectBudgetOptions=[
     {
@@ -77,13 +77,25 @@ function CreateTrip() {
     console.log(formData);
   }, [formData])
 
-  const OnGenerateTrip=()=>{
+  const OnGenerateTrip=async()=>{
     if(formData?.noOfDays>10&&!formData?.location||!formData?.budget||!formData?.traveler)
     {
       toast("Please fill all details")
       return;
     }
-    console.log(formData);
+    
+    const FINAL_PROMPT=AI_PROMPT
+    .replace('{location}', formData?.location?.label)
+    .replace('{totalDays}', formData?.noOfDays)
+    .replace('{traveler}', formData?.traveler)
+    .replace('{budget}', formData?.budget)
+    .replace('{totalDays}', formData?.noOfDays)
+
+    console.log(FINAL_PROMPT);
+
+    const result=await chatSession.sendMessage(FINAL_PROMPT);
+
+    console.log(result?.response?.text());
   }
 
 
@@ -104,10 +116,9 @@ function CreateTrip() {
         <h2 className='text-xl my-3 font-medium'>
           What is your destination?
         </h2>
-        {/* {<PlaceAutocomplete onSelect={(place) => {
-          setPlace(place);
-          handleInputChange('location', place.displayName || place.formattedAddress);
-        }} />} */}
+        <PlaceAutocomplete
+        onSelect={(place) => handleInputChange('location', place.displayName || place.formattedAddress)}
+         />
       </div>
 
 

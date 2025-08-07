@@ -22,7 +22,9 @@ function PlaceAutocomplete({ onSelect }) {
     }
   }, []);
 
-  return <div ref={autocompleteRef} />;
+  return (
+    <div ref={autocompleteRef} className="gmp-autocomplete"></div>
+  );
 }
 
 export default PlaceAutocomplete;
