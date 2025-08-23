@@ -9,6 +9,7 @@ import Header from './components/ui/custom/Header.jsx';
 import React from 'react';
 import { toast } from "sonner"
 import { Toaster } from "sonner";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const router = createBrowserRouter([
   {
@@ -22,9 +23,11 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
     <Header />
     <Toaster />
     <RouterProvider router={router} />
+  </GoogleOAuthProvider>
   </React.StrictMode>,
 )
 const orig = Element.prototype.attachShadow;

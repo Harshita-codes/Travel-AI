@@ -4,6 +4,18 @@ import { Button } from '../components/ui/button'
 import PlaceAutocomplete from '../components/PlaceAutocomplete'
 import { AI_PROMPT } from '@/constants/options'
 import { generateTravelPlan } from '../service/AIModal';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { DialogClose } from '@radix-ui/react-dialog';
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin, useGoogleOAuth } from '@react-oauth/google';
+
 
 const SelectBudgetOptions = [
   {
@@ -60,6 +72,7 @@ function CreateTrip() {
   const [place, setPlace] = useState();
 
   const [formData, setFormData] = useState([]);
+  const[openDailog, setOpenDailog]=useState(false);
 
   const handleInputChange = (name, value) => {
 
@@ -88,8 +101,21 @@ function CreateTrip() {
     }
   }
 
+  const login=useGoogleLogin({
+    onSuccess: (codeResp) =>console.log(codeResp),
+    onError:(error)=>console.log(error) 
+  })
 
   const OnGenerateTrip = async () => {
+
+    const user=localStorage.getItem('user');
+
+    if(!user)
+    {
+      setOpenDailog(true);
+      return ;
+    }
+
     if (formData?.noOfDays > 10 && !formData?.location || !formData?.budget || !formData?.traveler) {
       toast("Please fill all details")
       return;
@@ -109,6 +135,22 @@ function CreateTrip() {
     console.log(result?.response?.text());
   }
 
+const GetUserProfile=(tokenInfo)=>
+  {
+  axious.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
+    {
+
+      headers: {
+      Authorization: `Bearer ${tokenInfo?.access_token}`,
+      Accept: 'Application/json'
+    }
+    }).then((resp)=>{
+      console.log(resp);
+    })
+  }
+ 
+
+  
 
   return (
     <div className='sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 mt-10'>
@@ -194,11 +236,28 @@ function CreateTrip() {
       </div>
 
       <div className='my-10 justify-end flex'>
-        <Button onClick=
-          {OnGenerateTrip}>Generate Trip</Button>
+       <Button onClick={() => setOpenDailog(true)}>Generate Trip</Button>
       </div>
+
+         {openDailog && <Dialog open={openDailog} onOpenChange={setOpenDailog}>
+      <DialogTrigger>Open</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>  
+          <DialogDescription>
+            <img src="/logo.svg"/>
+            <h2 className='font-bold text-xl text-red-500'>Sign in with Google</h2>
+            <p>Sign in to the App with Google Authentication securely</p>
+
+            <Button 
+            onClick={login}
+            className="w-full mt-5 flex gap-4 items-center">
+              <FcGoogle className='h-7 w-7' />
+              Sign in with Google</Button>
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>}
     </div>
   )
 }
-
 export default CreateTrip
