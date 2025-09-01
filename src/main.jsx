@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { Router } from 'lucide-react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CreateTrip from './create-trip/index.jsx';
+import Result from './create-trip/Result.jsx';
 import Header from './components/ui/custom/Header.jsx';
 import React from 'react';
 import { toast } from "sonner"
@@ -19,15 +20,20 @@ const router = createBrowserRouter([
   {
     path: '/create-trip',
     element: <CreateTrip />
+  },
+  {
+    path: '/result',
+    element: <Result />
   }
 ]);
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
-    <Header />
-    <Toaster />
-    <RouterProvider router={router} />
-  </GoogleOAuthProvider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
+      <Header />
+      <Toaster />
+      <RouterProvider router={router} />
+
+    </GoogleOAuthProvider>
   </React.StrictMode>,
 )
 const orig = Element.prototype.attachShadow;
