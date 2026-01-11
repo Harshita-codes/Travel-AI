@@ -55,7 +55,8 @@ function Result() {
             ticket: activity.ticket_pricing,
             rating: activity.rating,
             timeToVisit: activity.time_to_visit_hours,
-            bestTime: activity.best_time_to_visit
+            bestTime: activity.best_time_to_visit,
+            contactNumber: activity.contact_number
           }))
         }))
       };
@@ -125,6 +126,7 @@ function Result() {
                   {activity.ticket > 0 && <span className="bg-green-100 px-2 py-1 rounded">₹{activity.ticket}</span>}
                   {activity.timeToVisit && <span className="bg-blue-100 px-2 py-1 rounded">{activity.timeToVisit}h</span>}
                   {activity.bestTime && <span className="bg-purple-100 px-2 py-1 rounded">{activity.bestTime}</span>}
+                  {activity.contactNumber && <span className="bg-red-100 px-2 py-1 rounded">{activity.contactNumber}</span>}
                 </div>
               </div>
             ))}

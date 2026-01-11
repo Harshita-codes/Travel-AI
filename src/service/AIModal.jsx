@@ -45,7 +45,8 @@ export async function generateTravelPlan(location, days, group, budget) {
               "ticket_pricing": 50,
               "rating": 4.5,
               "time_to_visit_hours": 2.0,
-              "best_time_to_visit": "9:00 AM - 11:00 AM"
+              "best_time_to_visit": "9:00 AM - 11:00 AM",
+              "contact_number": "+91-9876543210"
             }
           ]
         }
